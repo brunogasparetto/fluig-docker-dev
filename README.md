@@ -12,47 +12,46 @@ de somente a do container.
 - MySQL 8.0
 - MailHog (para testar envio de e-mail);
 
-## Como levantar o serviço
+## Iniciando
 
-Primeiro deve-se baixar o instalador do Fluig na [Central de Download da TOTVS](https://suporte.totvs.com/portal/p/10098/suporte-fluig-download#000035/FLUIG%201.8/Fluig/) (arquivo compactado);
+Baixe o instalador do Fluig para Linux na [Central de Download da TOTVS](https://suporte.totvs.com/portal/p/10098/suporte-fluig-download#000035/FLUIG%201.8/Fluig/).
 
 Descompacte o conteúdo do arquivo na pasta `image/installer`;
 
-Rode o comando `docker compose up -d`
+No terminal execute o comando `docker compose up -d` para levantar os serviços.
 
-Na primeira vez o docker fará o build da imagem e ao levantar o container
-pela primeira vez fará a instalação do Fluig.
+Na primeira vez que executar este comando o Docker fará o build da imagem do Fluig,
+rodando a instalação e efetuando as configurações.
 
-Caso ocorra algum erro pode parar o container e levantá-lo novamente para
-que o script do Fluig execute novamente.
+Lembre-se: ao instalar o Fluig será necessário criar a empresa entrando no WCMAdmin.
 
-Ou pode entrar no Container com o comando `docker compose fluig exec bash`
-para reiniciar o serviço do Fluig: `service fluig restart`
+Login: wcmadmin<br>
+Senha: adm
 
-Pode usar o diretório `/var/fluig-volume` como diretório inicial para o Volume de cada empresa.
+O diretório `/var/fluig-volume` é persistido no Docker, por isso o utilize como diretório
+base para os volumes das empresas criadas. Assim cada empresa deve ter seu volume indicado
+como um subdiretório de `/var/fluig-volume`. Ex: `/var/fluig-volume/empresa001`.
 
-Para cada empresa indique, na criação, um diretório abaixo de `/var/fluig-volume`. Por exemplo: `/var/fluig-volume/empresa01`.
+O Fluig será acessado no endereço http://127.0.0.1:8080
 
-## Como usar
+O MailHog (para visualizar os e-mails) será acessado no endereço http://127.0.0.1:8025
 
-Após o serviço levantado será possível acessar o Fluig pelo endereço http://localhost:8080
+O banco de dados está acessível em `localhost` na porta `3306`.
 
-É possível visualizar os e-mails enviados no painel do MailHog, acessando o endereço http://localhost:8025
+Caso tente acessar o banco de dados pelo DBeaver é necessário alterar o tipo de conexão para URL e colocar a seguinte URL: `jdbc:mysql://localhost:3306/fluig?allowPublicKeyRetrieval=true&useSSL=false`
 
-O banco de dados está acessível no localhost na porta 3306. Caso tente acessá-lo
-pelo DBeaver é necessário alterar o tipo de conexão para URL e colocar a seguinte URL:
-`jdbc:mysql://localhost:3306/fluig?allowPublicKeyRetrieval=true&useSSL=false`
+Usuário: root<br>
+Senha: rootpassword
 
-Para executar comandos dentro do container do Fluig utilize o comando
-`docker compose fluig exec bash`
+## Comandos
 
-Para visualizar o log do Fluig primeiro entre no container (ensinado anteriormente) e execute o comando:
-`log`
+Os comandos a seguir são executados no terminal.
 
-O alias `log` simplesmente executa o comando `tail -f appserver/domain/servers/fluig1/log/server.log`.
+- Iniciar os serviços: `docker compose up -d`;
+- Parar os serviços: `docker compose stop`;
+- Parar os serviços e deletar os containers¹: `docker compose down`;
+- Entrar no container do Fluig para executar comandos: `docker compose fluig exec bash`;
+- Visualizar o log do Fluig: `log` (é um alias para `tail -f appserver/domain/servers/fluig1/log/server.log`);
 
-## Encerrando
-
-Para parar os containers basta executar o comando `docker compose stop`.
-
-Caso queira deletar os containers pode executar `docker compose down`.
+¹ Se ao deletar os containers quiser uma instalação do zero é importante remover o volume criado,
+na aplicação Docker, para não influenciar na nova instalação.
