@@ -31,6 +31,16 @@ para reiniciar o serviço do Fluig: `service fluig restart`
 
 Pode usar o diretório `/var/fluig-volume` como volume para o Fluig.
 
+### Importante sobre a persistência do Volume
+
+Cada empresa precisa ter um único volume. Caso a intenção seja criar várias empresas é necessário criar a persistência de volume
+no `docker-compose.yml`.
+
+Caso deseje iniciar uma instalação do zero após já ter criado os containers uma vez a persistência do volume continuará
+e assim ocasionará erro ao criar a empresa.
+
+Nesta situação deve-se excluir o volume no aplicativo Docker.
+
 ## Como usar
 
 Após o serviço levantado será possível acessar o Fluig pelo endereço http://localhost:8080
