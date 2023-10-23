@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+service fluig_RealTime start
+service fluig_Indexer start
+service fluig start
+tail -f /dev/null

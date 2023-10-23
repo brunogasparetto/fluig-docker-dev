@@ -1,0 +1,45 @@
+version: '3.1'
+services:
+  fluig:
+    build:
+      context: ./image
+      dockerfile: Dockerfile
+    image: fluig-docker
+    ports:
+      - 8080:8080
+      - 7777:7777
+      - 8888:8888
+      - 8000:8000
+      - 8983:8983
+      - 9990:9990
+    networks:
+      - fluigNetwork
+    depends_on:
+      - mysql
+      - mailhog
+
+  mysql:
+    image: mysql:8
+    command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_general_ci', '--lower_case_table_names=1', '--default_storage_engine=InnoDB']
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: 'rootpassword'
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_DATABASE: 'fluig'
+      MYSQL_USER: 'fluig'
+      MYSQL_PASSWORD: 'fluigpassword'
+    networks:
+        - fluigNetwork
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    ports:
+        - 1025:1025
+        - 8025:8025
+    networks:
+        - fluigNetwork
+
+networks:
+  fluigNetwork:
+    driver: bridge
