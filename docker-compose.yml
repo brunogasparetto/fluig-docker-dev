@@ -5,6 +5,8 @@ services:
       context: ./image
       dockerfile: Dockerfile
     image: fluig-docker
+    volumes:
+      - fluig-volume:/var/fluig-volume
     ports:
       - 8080:8080
       - 7777:7777
@@ -43,3 +45,6 @@ services:
 networks:
   fluigNetwork:
     driver: bridge
+
+volumes:
+  fluig-volume:
