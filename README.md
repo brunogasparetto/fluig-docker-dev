@@ -44,6 +44,9 @@ pelo DBeaver é necessário alterar o tipo de conexão para URL e colocar a segu
 Para executar comandos dentro do container do Fluig utilize o comando
 `docker compose fluig exec bash`
 
+Para visualizar o log do Fluig primeiro entre no container (ensinado anteriormente) e execute o comando:
+`tail -f appserver/domain/servers/fluig1/log/server.log`
+
 ## Encerrando
 
 Para parar os containers basta executar o comando `docker compose stop`.
