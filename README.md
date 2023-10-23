@@ -29,17 +29,9 @@ que o script do Fluig execute novamente.
 Ou pode entrar no Container com o comando `docker compose fluig exec bash`
 para reiniciar o serviço do Fluig: `service fluig restart`
 
-Pode usar o diretório `/var/fluig-volume` como volume para o Fluig.
+Pode usar o diretório `/var/fluig-volume` como diretório inicial para o Volume de cada empresa.
 
-### Importante sobre a persistência do Volume
-
-Cada empresa precisa ter um único volume. Caso a intenção seja criar várias empresas é necessário criar a persistência de volume
-no `docker-compose.yml`.
-
-Caso deseje iniciar uma instalação do zero após já ter criado os containers uma vez a persistência do volume continuará
-e assim ocasionará erro ao criar a empresa.
-
-Nesta situação deve-se excluir o volume no aplicativo Docker.
+Para cada empresa indique, na criação, um diretório abaixo de `/var/fluig-volume`. Por exemplo: `/var/fluig-volume/empresa01`.
 
 ## Como usar
 
@@ -55,7 +47,9 @@ Para executar comandos dentro do container do Fluig utilize o comando
 `docker compose fluig exec bash`
 
 Para visualizar o log do Fluig primeiro entre no container (ensinado anteriormente) e execute o comando:
-`tail -f appserver/domain/servers/fluig1/log/server.log`
+`log`
+
+O alias `log` simplesmente executa o comando `tail -f appserver/domain/servers/fluig1/log/server.log`.
 
 ## Encerrando
 
