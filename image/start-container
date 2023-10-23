@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-service fluig_RealTime start
-service fluig_Indexer start
-service fluig start
+service fluig_RealTime --full-restart
+service fluig_Indexer --full-restart
+service fluig --full-restart
 tail -f /dev/null
