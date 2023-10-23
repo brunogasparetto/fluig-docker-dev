@@ -30,8 +30,6 @@ RUN rm -fr /var/fluig
 COPY start-container /usr/local/bin/start-container
 RUN chmod +x /usr/local/bin/start-container
 
-RUN mkdir -p /var/fluig-volume
-
 EXPOSE 8080 7777 8888 8000 8983 9990
 
 ENTRYPOINT ["start-container"]
