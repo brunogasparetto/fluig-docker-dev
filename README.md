@@ -50,8 +50,8 @@ Os comandos a seguir são executados no terminal.
 - Iniciar os serviços: `docker compose up -d`;
 - Parar os serviços: `docker compose stop`;
 - Parar os serviços e deletar os containers¹: `docker compose down`;
-- Entrar no container do Fluig para executar comandos: `docker compose fluig exec bash`;
-- Visualizar o log do Fluig: `log` (é um alias para `tail -f appserver/domain/servers/fluig1/log/server.log`);
+- Entrar no container do Fluig para executar comandos: `docker compose exec fluig bash`;
+- Visualizar o log do Fluig (após entrar no bash): `log` (é um alias para `tail -f appserver/domain/servers/fluig1/log/server.log`);
 
 ¹ Se ao deletar os containers quiser uma instalação do zero é importante remover o volume criado,
 na aplicação Docker, para não influenciar na nova instalação.
