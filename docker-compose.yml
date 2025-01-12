@@ -1,9 +1,10 @@
-version: '3.1'
 services:
   fluig:
     build:
       context: ./image
       dockerfile: Dockerfile
+      args:
+        TZ: ${TZ}
     image: fluig-docker
     volumes:
       - fluig-volume:/var/fluig-volume
