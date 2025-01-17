@@ -16,7 +16,7 @@ de somente a do container.
 
 - Fluig;
 - MySQL 8.0
-- MailHog (para testar envio de e-mail);
+- MailDev (para testar envio de e-mail);
 
 ## Iniciando
 
@@ -43,7 +43,7 @@ como um subdiretório de `/var/fluig-volume`. Ex: `/var/fluig-volume/empresa001`
 
 O Fluig será acessado no endereço <http://127.0.0.1:8080>
 
-O MailHog (para visualizar os e-mails) será acessado no endereço <http://127.0.0.1:8025>
+O MailDev (para visualizar os e-mails) será acessado no endereço <http://127.0.0.1:1080>
 
 O banco de dados está acessível em `localhost` na porta `3306`.
 

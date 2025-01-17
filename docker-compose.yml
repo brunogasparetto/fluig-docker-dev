@@ -19,7 +19,7 @@ services:
       - fluigNetwork
     depends_on:
       - mysql
-      - mailhog
+      - emailsmtp
 
   mysql:
     image: mysql:8
@@ -33,15 +33,17 @@ services:
       MYSQL_USER: 'fluig'
       MYSQL_PASSWORD: 'fluigpassword'
     networks:
-        - fluigNetwork
+      - fluigNetwork
 
-  mailhog:
-    image: mailhog/mailhog:latest
+  emailsmtp:
+    image: maildev/maildev:latest
+    environment:
+      TZ: ${TZ}
     ports:
-        - 1025:1025
-        - 8025:8025
+      - 1025:1025
+      - 1080:1080
     networks:
-        - fluigNetwork
+      - fluigNetwork
 
 networks:
   fluigNetwork:

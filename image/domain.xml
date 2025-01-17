@@ -853,7 +853,7 @@
             <socket-binding name="txn-recovery-environment" port="4712"/>
             <socket-binding name="txn-status-manager" port="4713"/>
             <outbound-socket-binding name="mail-smtp">
-                <remote-destination host="${env.FLUIG_SMTP_HOST:mailhog}" port="${env.FLUIG_SMTP_PORT:1025}"/>
+                <remote-destination host="${env.FLUIG_SMTP_HOST:emailsmtp}" port="${env.FLUIG_SMTP_PORT:1025}"/>
             </outbound-socket-binding>
             <outbound-socket-binding name="messaging-remote">
                 <remote-destination host="${env.FLUIG_HOST_ADDRESS:0.0.0.0}" port="5445"/>

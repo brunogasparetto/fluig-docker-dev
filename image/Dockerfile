@@ -4,6 +4,12 @@ ARG TZ=UTC
 
 ENV DEBIAN_FRONTEND noninteractive
 
+WORKDIR /opt/fluig
+
+EXPOSE 8080 7777 8888 8000 8983 9990
+
+ENTRYPOINT ["start-container"]
+
 COPY . /var/fluig
 
 RUN apt-get update \
@@ -22,9 +28,3 @@ RUN apt-get update \
     && cd / \
     && rm -fr /var/fluig \
     && true
-
-WORKDIR /opt/fluig
-
-EXPOSE 8080 7777 8888 8000 8983 9990
-
-ENTRYPOINT ["start-container"]
