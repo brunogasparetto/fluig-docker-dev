@@ -53,7 +53,7 @@
         <management-interfaces>
             <http-interface security-realm="ManagementRealm">
                 <http-upgrade enabled="true"/>
-                <socket interface="management" port="${jboss.management.http.port:9990}"/>
+                <socket interface="management" port="9990"/>
             </http-interface>
         </management-interfaces>
     </management>
@@ -62,10 +62,10 @@
     </domain-controller>
     <interfaces>
         <interface name="management">
-            <inet-address value="${env.FLUIG_HOST_ADDRESS_MANAGEMENT:0.0.0.0}"/>
+            <inet-address value="0.0.0.0"/>
         </interface>
         <interface name="public">
-            <inet-address value="${env.FLUIG_HOST_ADDRESS_PUBLIC:0.0.0.0}"/>
+            <inet-address value="0.0.0.0"/>
         </interface>
     </interfaces>
     <jvms>
@@ -84,7 +84,7 @@
 
         <server auto-start="true" group="fluig" name="fluig1">
             <jvm name="default">
-                <heap max-size="${env.FLUIG_MEMORY_MAX:4g}" size="${env.FLUIG_MEMORY_MIN:2g}"/>
+                <heap max-size="4g" size="2g"/>
                 <jvm-options>
                     <option value="-Dfile.encoding=utf8"/>
                     <option value="-XX:MaxMetaspaceSize=1024m"/>
