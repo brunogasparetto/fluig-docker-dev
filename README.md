@@ -20,7 +20,7 @@ de somente a do container.
 
 ## Iniciando
 
-Baixe o instalador do Fluig 1.8.1 para Linux na [Central de Download da TOTVS](https://suporte.totvs.com/portal/p/10098/suporte-fluig-download#000035/FLUIG%201.8/Fluig/).
+Baixe o instalador do Fluig, 1.8.1 ou 1.8.2, para Linux na [Central de Download da TOTVS](https://suporte.totvs.com/portal/p/10098/suporte-fluig-download#000035/FLUIG%201.8/Fluig/).
 
 Descompacte o conteúdo do arquivo na pasta `image/installer`;
 
