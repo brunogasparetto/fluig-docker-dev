@@ -24,8 +24,11 @@ Baixe o instalador do Fluig, 1.8.1 ou 1.8.2, para Linux na [Central de Download 
 
 Descompacte o conteúdo do arquivo na pasta `image/installer`;
 
-Caso necessário altere o TimeZone no arquivo `.env` (por padrão está America/Sao_Paulo).
-Isso só terá validade ao criar a imagem.
+É possível configurar algumas variáveis de ambiente no arquivo `.env` que influenciarão
+na criação da imagem (somente na criação da imagem). Neste arquivo é possível indicar
+o TimeZone desejado pro servidor e se tem a intenção de instalar o RealTime (Node) e
+Indexador (SOLR). Particularmente muitas vezes eles não são necessários e sem a
+instalação pode-se economizar um pouco nos requisitos pra rodar o ambiente.
 
 No terminal execute o comando `docker compose up -d` para levantar os serviços.
 

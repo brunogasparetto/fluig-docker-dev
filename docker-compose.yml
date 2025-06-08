@@ -5,6 +5,8 @@ services:
       dockerfile: Dockerfile
       args:
         TZ: ${TZ}
+        NODE: ${INSTALL_NODE}
+        SOLR: ${INSTALL_SOLR}
     volumes:
       - fluig-volume:/var/fluig-volume
     ports:
