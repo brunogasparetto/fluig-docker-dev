@@ -19,8 +19,8 @@ services:
     networks:
       - fluigNetwork
     depends_on:
-      - mysql
-      - emailsmtp
+      mysql:
+        condition: service_healthy
 
   mysql:
     image: mysql:8
@@ -35,6 +35,12 @@ services:
       MYSQL_PASSWORD: 'fluigpassword'
     networks:
       - fluigNetwork
+    healthcheck:
+      test: mysqladmin ping -h 127.0.0.1 -u $$MYSQL_USER --password=$$MYSQL_PASSWORD
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
 
   emailsmtp:
     image: maildev/maildev:latest
