@@ -5,6 +5,9 @@ ARG NODE=true
 ARG SOLR=true
 
 ENV DEBIAN_FRONTEND=noninteractive
+ENV FLUIG_CONFIG_SERVER_ADDRESS_PUBLIC=0.0.0.0
+ENV FLUIG_CONFIG_SERVER_ADDRESS_MANAGEMENT=0.0.0.0
+ENV FLUIG_CONFIG_SERVER_ADDRESS_UNSECURE=0.0.0.0
 
 WORKDIR /opt/fluig
 
@@ -36,9 +39,6 @@ RUN apt-get update \
         sed -i 's/resource_solr_install=true/resource_solr_install=false/g' /var/fluig/install.conf; \
     fi \
     && ./jdk-64/bin/java -cp fluig-installer.jar com.fluig.install.ExecuteInstall /var/fluig/install.conf \
-    && sed -i 's/<inet-address value="${env.FLUIG_CONFIG_SERVER_ADDRESS_MANAGEMENT:127.0.0.1}"\/>/\<any-address\/>/g' /opt/fluig/appserver/standalone/configuration/standalone.xml \
-    && sed -i 's/<inet-address value="${env.FLUIG_CONFIG_SERVER_ADDRESS_PUBLIC:127.0.0.1}"\/>/\<any-address\/>/g' /opt/fluig/appserver/standalone/configuration/standalone.xml \
-    && sed -i 's/<inet-address value="${env.FLUIG_CONFIG_SERVER_ADDRESS_UNSECURE:127.0.0.1}"\/>/\<any-address\/>/g' /opt/fluig/appserver/standalone/configuration/standalone.xml \
     && cd / \
     && rm -fr /var/fluig \
     && true
