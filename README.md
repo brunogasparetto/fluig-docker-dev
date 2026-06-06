@@ -1,69 +1,98 @@
 # Fluig em Docker (para desenvolvimento)
 
-Configuração para ter o Fluig rodando em um ambiente de desenvolvimento em Docker.
+Ambiente de desenvolvimento local do **Fluig 2.0.0** (TOTVS) rodando em Docker.
 
-Esse repositório **NÃO CONTÉM** o instalador do Fluig, pois somente usuários credenciados podem baixar
-o instalador.
+> O repositório **não contém** o instalador do Fluig. Ele deve ser baixado separadamente no portal TOTVS e extraído em `image/installer/` antes do build.
 
-A utilização do Fluig depende de um Servidor de Licenças válido. Caso não configure um Servidor
-de Licenças no Fluig você só conseguirá utilizar o modo demonstração por 7 dias.
+Para o passo a passo completo de instalação, consulte [INSTALACAO.md](INSTALACAO.md).
 
-Por enquanto, para facilitar, a configuração de domain e host são sobreescritas, pois encontrei
-muita dificuldade em configurar automaticamente o Fluig para ouvir em todas as redes ao invés
-de somente a do container.
+---
 
-## Containers
+## Pré-requisitos
 
-- Fluig;
-- MySQL 8.0
-- MailDev (para testar envio de e-mail);
+- Docker Desktop instalado e em execução
+- Mínimo **8 GB de RAM** disponível para o Docker
+- Instalador do Fluig 2.0.0 para Linux extraído em `image/installer/`
 
-## Iniciando
+---
 
-Baixe o instalador do Fluig, 1.8.1 ou 1.8.2, para Linux na [Central de Download da TOTVS](https://suporte.totvs.com/portal/p/10098/suporte-fluig-download#000035/FLUIG%201.8/Fluig/).
+## Início rápido
 
-Descompacte o conteúdo do arquivo na pasta `image/installer`;
+```bash
+# 1. Extraia o instalador do Fluig em image/installer/
 
-É possível configurar algumas variáveis de ambiente no arquivo `.env` que influenciarão
-na criação da imagem (somente na criação da imagem). Neste arquivo é possível indicar
-o TimeZone desejado pro servidor e se tem a intenção de instalar o RealTime (Node) e
-Indexador (SOLR). Particularmente muitas vezes eles não são necessários e sem a
-instalação pode-se economizar um pouco nos requisitos pra rodar o ambiente.
+# 2. Suba os serviços (build na primeira vez — ~15 min)
+docker compose up -d
 
-No terminal execute o comando `docker compose up -d` para levantar os serviços.
+# 3. Acompanhe até aparecer "Fluig is up and running right now."
+docker compose logs -f fluig
 
-Na primeira vez que executar este comando o Docker fará o build da imagem do Fluig,
-rodando a instalação e efetuando as configurações.
+# 4. Acesse http://127.0.0.1:8080/wcmadmin e crie uma empresa
+#    Login: wcmadmin / Senha: adm
 
-Lembre-se: ao instalar o Fluig será necessário criar a empresa entrando no WCMAdmin.
+# 5. Acesse http://127.0.0.1:8080
+```
 
-- Login: wcmadmin
-- Senha: adm
+---
 
-O diretório `/var/fluig-volume` é persistido no Docker, por isso o utilize como diretório
-base para os volumes das empresas criadas. Assim cada empresa deve ter seu volume indicado
-como um subdiretório de `/var/fluig-volume`. Ex: `/var/fluig-volume/empresa001`.
+## Serviços
 
-O Fluig será acessado no endereço <http://127.0.0.1:8080>
+| Serviço | URL | Credenciais |
+|---------|-----|-------------|
+| Fluig | http://127.0.0.1:8080 | wcmadmin / adm |
+| WCMAdmin | http://127.0.0.1:8080/wcmadmin | wcmadmin / adm |
+| MailDev | http://127.0.0.1:1080 | — |
+| MySQL | localhost:3306 | root / rootpassword |
 
-O MailDev (para visualizar os e-mails) será acessado no endereço <http://127.0.0.1:1080>
+MySQL URL para DBeaver:
+```
+jdbc:mysql://localhost:3306/fluig?allowPublicKeyRetrieval=true&useSSL=false
+```
 
-O banco de dados está acessível em `localhost` na porta `3306`.
+---
 
-Caso tente acessar o banco de dados pelo DBeaver é necessário alterar o tipo de conexão para URL e colocar a seguinte URL: `jdbc:mysql://localhost:3306/fluig?allowPublicKeyRetrieval=true&useSSL=false`
+## Configuração (.env)
 
-- Usuário: root
-- Senha: rootpassword
+| Variável | Padrão | Descrição |
+|----------|--------|-----------|
+| `TZ` | `America/Sao_Paulo` | Timezone do servidor |
+| `INSTALL_NODE` | `false` | Instala o módulo RealTime (Node.js) |
+| `INSTALL_SOLR` | `false` | Instala o indexador Solr |
 
-## Comandos
+Alterações no `.env` exigem rebuild da imagem.
 
-Os comandos a seguir são executados no terminal.
+---
 
-- Iniciar os serviços: `docker compose up -d`;
-- Parar os serviços: `docker compose stop`;
-- Parar os serviços e deletar os containers¹: `docker compose down`;
-- Entrar no bash do container do Fluig para executar comandos: `docker compose exec fluig bash`;
-- Visualizar o log do Fluig (primeiro entre no bash do container): `log`;
+## Comandos úteis
 
-¹ Se ao deletar os containers quiser uma instalação do zero é importante remover o volume criado,
-na aplicação Docker, para não influenciar na nova instalação.
+```bash
+# Parar os serviços (mantém dados)
+docker compose stop
+
+# Remover containers (volumes persistem)
+docker compose down
+
+# Shell dentro do container
+docker compose exec fluig bash
+
+# Log do WildFly (dentro do container)
+tail -f /opt/fluig/appserver/standalone/log/server.log
+```
+
+---
+
+## Dados persistentes
+
+Os dados ficam no volume Docker mapeado em `/var/fluig-volume`. Ao criar a empresa no WCMAdmin, use um subdiretório como `/var/fluig-volume/empresa001`.
+
+Para iniciar do zero após `docker compose down`:
+
+```bash
+docker volume rm fluig-docker-dev_fluig-volume
+```
+
+---
+
+## Licença
+
+Sem um Servidor de Licenças TOTVS em `localhost:5555`, o Fluig roda em **modo demonstração por 7 dias**. Configure o endereço do LS em `image/install.conf` antes do build.

@@ -19,22 +19,26 @@ RUN apt-get update \
     && apt-get -y install fontconfig \
     && apt-get clean \
     && mv /var/fluig/start-container /usr/local/bin/start-container \
+    && sed -i 's/\r//' /usr/local/bin/start-container \
     && chmod +x /usr/local/bin/start-container \
     && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
-    && echo "alias log='tail -f /opt/fluig/appserver/domain/servers/fluig1/log/server.log'" >> /root/.bashrc \
+    && echo "alias log='tail -f /opt/fluig/appserver/standalone/log/server.log'" >> /root/.bashrc \
     && dpkg -i /var/fluig/mysql-connector-j_8.1.0-1ubuntu22.04_all.deb \
     && cd /var/fluig/installer \
     && chmod +x ./jdk-64/bin/java \
     && if [ "$NODE" = "false" ]; then \
         sed -i 's/service fluig_RealTime --full-restart/# service fluig_RealTime --full-restart/g' /usr/local/bin/start-container; \
-        sed -i 's/install.node=true/install.node=false/g' /var/fluig/install.conf; \
+        sed -i 's/resource_node_install=true/resource_node_install=false/g' /var/fluig/install.conf; \
+        sed -i 's/node_enabled=true/node_enabled=false/g' /var/fluig/install.conf; \
     fi \
     && if [ "$SOLR" = "false" ]; then \
         sed -i 's/service fluig_Indexer --full-restart/# service fluig_Indexer --full-restart/g' /usr/local/bin/start-container; \
-        sed -i 's/install.solr=true/install.solr=false/g' /var/fluig/install.conf; \
+        sed -i 's/resource_solr_install=true/resource_solr_install=false/g' /var/fluig/install.conf; \
     fi \
     && ./jdk-64/bin/java -cp fluig-installer.jar com.fluig.install.ExecuteInstall /var/fluig/install.conf \
-    && mv /var/fluig/domain.xml /var/fluig/host.xml /opt/fluig/appserver/domain/configuration/ \
+    && sed -i 's/<inet-address value="${env.FLUIG_CONFIG_SERVER_ADDRESS_MANAGEMENT:127.0.0.1}"\/>/\<any-address\/>/g' /opt/fluig/appserver/standalone/configuration/standalone.xml \
+    && sed -i 's/<inet-address value="${env.FLUIG_CONFIG_SERVER_ADDRESS_PUBLIC:127.0.0.1}"\/>/\<any-address\/>/g' /opt/fluig/appserver/standalone/configuration/standalone.xml \
+    && sed -i 's/<inet-address value="${env.FLUIG_CONFIG_SERVER_ADDRESS_UNSECURE:127.0.0.1}"\/>/\<any-address\/>/g' /opt/fluig/appserver/standalone/configuration/standalone.xml \
     && cd / \
     && rm -fr /var/fluig \
     && true
