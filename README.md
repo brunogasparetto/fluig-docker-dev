@@ -6,6 +6,9 @@ Ambiente de desenvolvimento local do **Fluig 2.0.0** (TOTVS) rodando em Docker.
 
 Para o passo a passo completo de instalação, consulte [INSTALACAO.md](INSTALACAO.md).
 
+Para utilizar o Fluig na versão 1.8.2, baixe o zip da release [Fluig 1.8.2](https://github.com/brunogasparetto/fluig-docker-dev/archive/refs/tags/1.8.2.zip),
+descompacte em uma pasta e siga as orientações do README.md.
+
 ---
 
 ## Pré-requisitos
