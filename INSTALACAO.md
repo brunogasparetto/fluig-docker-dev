@@ -20,7 +20,8 @@ cd fluig-docker-dev
 
 ## 2. Baixar e extrair o instalador do Fluig
 
-Acesse o portal de suporte TOTVS e baixe o instalador do **Fluig 2.0.0 para Linux**.
+Acesse o portal de suporte TOTVS e baixe o instalador para Linux do **Fluig 2.0.0** ou
+do **Fluig 1.8.2**.
 
 Extraia o conteúdo dentro da pasta `image/installer/`. A estrutura deve ficar assim:
 
@@ -43,9 +44,10 @@ image/installer/
 O arquivo `.env` já vem configurado com valores padrão. Edite se necessário:
 
 ```env
-TZ=America/Sao_Paulo       # Timezone do servidor
-INSTALL_NODE=false          # true = instala o módulo RealTime (Node.js)
-INSTALL_SOLR=false          # true = instala o indexador Solr
+FLUIG=2.0              # Indica a versão do Fluig. Valores possíveis são: 2.0 ou 1.8
+TZ=America/Sao_Paulo   # Timezone do servidor
+INSTALL_NODE=false     # true = instala o módulo RealTime (Node.js)
+INSTALL_SOLR=false     # true = instala o indexador Solr
 ```
 
 > Manter `INSTALL_NODE=false` e `INSTALL_SOLR=false` reduz o uso de memória e o tempo de build.
@@ -53,26 +55,14 @@ INSTALL_SOLR=false          # true = instala o indexador Solr
 
 ---
 
-## 4. Configurar servidor de licenças (opcional)
-
-Se você possui um Servidor de Licenças TOTVS, edite `image/install.conf` e ajuste:
-
-```conf
-ls_server=<ip-do-servidor-de-licencas>
-ls_port=5555
-```
-
-> Sem licença, o Fluig funciona em **modo demonstração por 7 dias**.
-
----
-
-## 5. Fazer o build e subir os serviços
+## 4. Fazer o build e subir os serviços
 
 ```bash
 docker compose up -d
 ```
 
-Na **primeira execução** o Docker vai buildar a imagem — isso inclui rodar o instalador do Fluig e leva **10-15 minutos**. Acompanhe o progresso:
+Na **primeira execução** o Docker vai buildar a imagem — isso inclui rodar o instalador do Fluig e
+leva **10-15 minutos**. Acompanhe o progresso:
 
 ```bash
 docker compose logs -f
@@ -82,9 +72,10 @@ Quando o build terminar, o container do Fluig será iniciado automaticamente.
 
 ---
 
-## 6. Aguardar o Fluig inicializar
+## 5. Aguardar o Fluig inicializar
 
-Após o build, o servidor de aplicação (WildFly) leva mais **4-6 minutos** para subir completamente. Monitore o log:
+Após o build, o servidor de aplicação (WildFly) leva mais **4-6 minutos** para subir completamente.
+Monitore o log:
 
 ```bash
 docker compose logs -f fluig
@@ -98,7 +89,7 @@ Fluig is up and running right now.
 
 ---
 
-## 7. Criar a empresa no WCMAdmin
+## 6. Criar a empresa no WCMAdmin
 
 O Fluig exige a criação de uma empresa antes de poder ser utilizado.
 
@@ -120,14 +111,21 @@ O Fluig exige a criação de uma empresa antes de poder ser utilizado.
 
 ---
 
+## 7. Configurar servidor de licenças (opcional)
+
+Se você possui um Servidor de Licenças TOTVS, configure-o no WCMAdmin, em parâmetros da plataforma.
+
+> Sem licença, o Fluig funciona em **modo demonstração por 7 dias**.
+
+---
+
 ## 8. Acessar o Fluig
 
 Com a empresa criada, acesse o Fluig pelo navegador:
 
 **http://127.0.0.1:8080**
 
-- Login: `wcmadmin`
-- Senha: `adm`
+As credenciais serão as do usuário administrador que criou para a empresa.
 
 ---
 
@@ -216,7 +214,8 @@ docker compose up -d --build
 - O `install.conf` está no formato antigo (1.8.x). Use o arquivo do repositório que já está no formato 2.0.0.
 
 **Erro `bash\r: No such file or directory` durante o build**
-- O script `start-container` tem quebras de linha Windows (CRLF). O Dockerfile já corrige isso automaticamente com `sed -i 's/\r//'`. Se persistir, converta o arquivo para LF manualmente.
+- O script `start-container` tem quebras de linha Windows (CRLF). O Dockerfile já corrige isso automaticamente com
+`sed -i 's/\r//'`. Se persistir, converta o arquivo para LF manualmente.
 
 **`License Service DOWN`** nos logs
 - Normal quando não há Servidor de Licenças. O Fluig funciona por 7 dias em modo demo.
