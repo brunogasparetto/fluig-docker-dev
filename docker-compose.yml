@@ -4,6 +4,7 @@ services:
       context: ./image
       dockerfile: Dockerfile
       args:
+        FLUIG: ${FLUIG}
         TZ: ${TZ}
         NODE: ${INSTALL_NODE}
         SOLR: ${INSTALL_SOLR}
