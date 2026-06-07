@@ -79,7 +79,7 @@ docker compose exec fluig bash
 # Log do WildFly (dentro do container)
 tail -f /opt/fluig/appserver/standalone/log/server.log
 
-# Há um alias para o Log do WildFlyg (dentro do container)
+# Há um alias para o Log do WildFly (dentro do container)
 log
 ```
 
