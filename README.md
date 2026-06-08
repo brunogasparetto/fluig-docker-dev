@@ -99,4 +99,4 @@ docker volume rm fluig-docker-dev_fluig-volume
 
 ## Licença
 
-Sem um Servidor de Licenças TOTVS em `localhost:5555`, o Fluig roda em **modo demonstração por 7 dias**. Configure o endereço do LS em `image/install.conf` antes do build.
+Sem um Servidor de Licenças TOTVS em `localhost:5555`, o Fluig roda em **modo demonstração por 7 dias**. Configure o endereço do LS no WCMAdmin, em Parâmetros da Plataforma.
