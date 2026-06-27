@@ -1,4 +1,4 @@
-# Guia de Instalação — Fluig 2.0.0 no Docker
+# Guia de Instalação — Fluig 2.0.0 ou 1.8.2 no Docker
 
 ## Pré-requisitos
 
@@ -164,8 +164,14 @@ docker compose logs -f fluig
 # Abrir terminal dentro do container
 docker compose exec fluig bash
 
-# Ver log do WildFly (dentro do container)
+# Ver log do WildFly (dentro do container do 2.0.0)
 tail -f /opt/fluig/appserver/standalone/log/server.log
+
+# Ver log do WildFly (dentro do container do 1.8.2)
+tail -f /opt/fluig/appserver/domain/servers/fluig1/log/server.log
+
+# Ver log do WildFly (alias que funciona em ambas versões)
+log
 ```
 
 ---
