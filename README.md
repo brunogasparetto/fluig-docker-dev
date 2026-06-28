@@ -1,6 +1,6 @@
 # Fluig em Docker (para desenvolvimento)
 
-Ambiente de desenvolvimento local do **Fluig 2.0.0** (TOTVS) rodando em Docker.
+Ambiente de desenvolvimento local do **Fluig 2.0.0** ou **Fluig 1.8.2** (TOTVS) rodando em Docker.
 
 > O repositório **não contém** o instalador do Fluig. Ele deve ser baixado separadamente no portal TOTVS e extraído em `image/installer/` antes do build.
 
@@ -12,7 +12,7 @@ Para o passo a passo completo de instalação, consulte [INSTALACAO.md](INSTALAC
 
 - Docker Desktop instalado e em execução
 - Mínimo **8 GB de RAM** disponível para o Docker
-- Instalador do Fluig 2.0.0 para Linux extraído em `image/installer/`
+- Instalador para Linux do Fluig 2.0.0 ou 1.8.2, extraído em `image/installer/`
 
 ---
 
@@ -55,6 +55,7 @@ jdbc:mysql://localhost:3306/fluig?allowPublicKeyRetrieval=true&useSSL=false
 
 | Variável | Padrão | Descrição |
 |----------|--------|-----------|
+| `FLUIG` | `2.0` | Versão do Fluig que será instalada. Pode ser 2.0 ou 1.8 |
 | `TZ` | `America/Sao_Paulo` | Timezone do servidor |
 | `INSTALL_NODE` | `false` | Instala o módulo RealTime (Node.js) |
 | `INSTALL_SOLR` | `false` | Instala o indexador Solr |
@@ -77,6 +78,9 @@ docker compose exec fluig bash
 
 # Log do WildFly (dentro do container)
 tail -f /opt/fluig/appserver/standalone/log/server.log
+
+# Há um alias para o Log do WildFly (dentro do container)
+log
 ```
 
 ---
@@ -95,4 +99,4 @@ docker volume rm fluig-docker-dev_fluig-volume
 
 ## Licença
 
-Sem um Servidor de Licenças TOTVS em `localhost:5555`, o Fluig roda em **modo demonstração por 7 dias**. Configure o endereço do LS em `image/install.conf` antes do build.
+Sem um Servidor de Licenças TOTVS em `localhost:5555`, o Fluig roda em **modo demonstração por 7 dias**. Configure o endereço do LS no WCMAdmin, em Parâmetros da Plataforma.
