@@ -1,5 +1,15 @@
 #!/usr/bin/env bash
 
+# 'service' launches init scripts with a stripped environment, so Docker ENV
+# vars (FLUIG_CONFIG_SERVER_ADDRESS_*) never reach the WildFly process unless
+# they are re-exported from a file that /etc/init.d/fluig sources.
+cat > /etc/default/fluig <<EOF
+JBOSS_CONSOLE_LOG="/dev/null"
+export FLUIG_CONFIG_SERVER_ADDRESS_PUBLIC=${FLUIG_CONFIG_SERVER_ADDRESS_PUBLIC:-127.0.0.1}
+export FLUIG_CONFIG_SERVER_ADDRESS_MANAGEMENT=${FLUIG_CONFIG_SERVER_ADDRESS_MANAGEMENT:-127.0.0.1}
+export FLUIG_CONFIG_SERVER_ADDRESS_UNSECURE=${FLUIG_CONFIG_SERVER_ADDRESS_UNSECURE:-127.0.0.1}
+EOF
+
 service fluig_RealTime --full-restart
 service fluig_Indexer --full-restart
 service fluig --full-restart
