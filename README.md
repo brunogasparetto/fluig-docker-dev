@@ -59,6 +59,9 @@ jdbc:mysql://localhost:3306/fluig?allowPublicKeyRetrieval=true&useSSL=false
 | `TZ` | `America/Sao_Paulo` | Timezone do servidor |
 | `INSTALL_NODE` | `false` | Instala o módulo RealTime (Node.js) |
 | `INSTALL_SOLR` | `false` | Instala o indexador Solr |
+| `LS_TYPE` | `ls` | Indica o tipo do License Server. Pode ser ls ou partner |
+| `LS_SERVER` | `localhost` | Endereço do License Server |
+| `LS_PORT` | `5555` | Porta do License Server |
 
 Alterações no `.env` exigem rebuild da imagem.
 
@@ -76,8 +79,11 @@ docker compose down
 # Shell dentro do container
 docker compose exec fluig bash
 
-# Log do WildFly (dentro do container)
+# Log do WildFly (dentro do container do Fluig 2.0)
 tail -f /opt/fluig/appserver/standalone/log/server.log
+
+# Log do WildFly (dentro do container do Fluig 1.8.2)
+tail -f /opt/fluig/appserver/domain/servers/fluig1/log/server.log
 
 # Há um alias para o Log do WildFly (dentro do container)
 log
@@ -97,6 +103,7 @@ docker volume rm fluig-docker-dev_fluig-volume
 
 ---
 
-## Licença
+## Servidor de Licenças
 
-Sem um Servidor de Licenças TOTVS em `localhost:5555`, o Fluig roda em **modo demonstração por 7 dias**. Configure o endereço do LS no WCMAdmin, em Parâmetros da Plataforma.
+Sem um Servidor de Licenças configurado o Fluig executará em **modo demonstração por 7 dias**.
+Configure o endereço do LS no `.env` ou no WCMAdmin, em Parâmetros da Plataforma.

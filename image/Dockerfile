@@ -4,6 +4,9 @@ ARG FLUIG="2.0"
 ARG TZ=UTC
 ARG NODE=true
 ARG SOLR=true
+ARG LS_TYPE="ls"
+ARG LS_SERVER="localhost"
+ARG LS_PORT=5555
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV FLUIG_CONFIG_SERVER_ADDRESS_PUBLIC=0.0.0.0
@@ -58,6 +61,16 @@ RUN apt-get update \
             sed -i 's/service fluig_Indexer --full-restart/# service fluig_Indexer --full-restart/g' /usr/local/bin/start-container; \
             sed -i 's/install.solr=true/install.solr=false/g' /var/fluig/install.conf; \
         fi \
+    fi \
+# Configura o LS
+    && if [ "$FLUIG" = "2.0" ]; then \
+        sed -i "s|license_type=ls|license_type=$LS_TYPE|g" /var/fluig/install.conf; \
+        sed -i "s|ls_server=localhost|ls_server=$LS_SERVER|g" /var/fluig/install.conf; \
+        sed -i "s|ls_port=5555|ls_port=$LS_PORT|g" /var/fluig/install.conf; \
+    else \
+        sed -i "s|license.type=ls|license.type=$LS_TYPE|g" /var/fluig/install.conf; \
+        sed -i "s|ls.server=localhost|ls.server=$LS_SERVER|g" /var/fluig/install.conf; \
+        sed -i "s|ls.port=5555|ls.port=$LS_PORT|g" /var/fluig/install.conf; \
     fi \
 # Executa a instalação do Fluig
     && cd /var/fluig/installer \

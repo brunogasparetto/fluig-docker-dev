@@ -48,6 +48,9 @@ FLUIG=2.0              # Indica a versão do Fluig. Valores possíveis são: 2.0
 TZ=America/Sao_Paulo   # Timezone do servidor
 INSTALL_NODE=false     # true = instala o módulo RealTime (Node.js)
 INSTALL_SOLR=false     # true = instala o indexador Solr
+LS_TYPE=ls             # Tipo do Servidor de Licenças. Possível ls ou partner
+LS_SERVER=localhost    # Endereço do Servidor de Licenças
+LS_PORT=5555           # Porta do Servidor de Licenças
 ```
 
 > Manter `INSTALL_NODE=false` e `INSTALL_SOLR=false` reduz o uso de memória e o tempo de build.
@@ -111,9 +114,10 @@ O Fluig exige a criação de uma empresa antes de poder ser utilizado.
 
 ---
 
-## 7. Configurar servidor de licenças (opcional)
+## 7. Configurar Servidor de Licenças
 
-Se você possui um Servidor de Licenças TOTVS, configure-o no WCMAdmin, em parâmetros da plataforma.
+Se você possuí um Servidor de Licenças TOTVS, pode configurá-lo editando o `.env` ou logando no WCMAdmin,
+em parâmetros da plataforma.
 
 > Sem licença, o Fluig funciona em **modo demonstração por 7 dias**.
 

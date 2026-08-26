@@ -8,6 +8,9 @@ services:
         TZ: ${TZ}
         NODE: ${INSTALL_NODE}
         SOLR: ${INSTALL_SOLR}
+        LS_TYPE: ${LS_TYPE}
+        LS_SERVER: ${LS_SERVER}
+        LS_PORT: ${LS_PORT}
     volumes:
       - fluig-volume:/var/fluig-volume
     ports:
